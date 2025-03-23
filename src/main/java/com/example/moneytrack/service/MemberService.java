@@ -21,11 +21,21 @@ public class MemberService {
                 .gender(request.getGender())
                 .build();
 
+        // 중복 회원 검증
+        vaildateDuplicateMember(member);
+
         Integer id = memberRepository.save(member).getId();
 
         MemberSignupResponse response = new MemberSignupResponse();
         response.setId(id);
 
         return response;
+    }
+
+    private void vaildateDuplicateMember(Member member) {
+        memberRepository.findByEmail(member.getEmail())
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                });
     }
 }
