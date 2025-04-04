@@ -4,10 +4,7 @@ import com.example.moneytrack.dto.MemberSignupRequest;
 import com.example.moneytrack.dto.MemberSignupResponse;
 import com.example.moneytrack.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,6 +13,7 @@ public class MemberController {
 
     final MemberService memberService;
 
+    // 회원가입
     @PostMapping
     public MemberSignupResponse signup(@RequestBody MemberSignupRequest requestDto) {
 
@@ -23,6 +21,12 @@ public class MemberController {
 
         return response;
 
+    }
+
+    // 회원탈퇴
+    @GetMapping("/{id}")
+    public void MemberDeleteId(@PathVariable Integer id) {
+        memberService.deleteId(id);
     }
 
 

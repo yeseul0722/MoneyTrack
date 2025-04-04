@@ -60,21 +60,5 @@ public class Member {
         this.gender = builder.gender;
         this.dateOfBirth = builder.dateOfBirth;
     }
-    //모든 필드 받는 생성자
-//    public Member(String email, String password, String name, String gender, LocalDate dateOfBirth){
-//        this.email = email;
-//        this.password = password;
-//        this.name = name;
-//        this.gender = gender;
-//        this.dateOfBirth = dateOfBirth;
-//    }
-//
-//    //필수 필드만 받는 생성자
-//    public Member(String email, String password, String name, LocalDate dateOfBirth){
-//        this.email = email;
-//        this.password = password;
-//        this.name = name;
-//        this.dateOfBirth = dateOfBirth;
-//    }
 
 }
