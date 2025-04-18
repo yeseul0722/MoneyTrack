@@ -46,13 +46,7 @@ public class MemberService {
     public MemberInfoResponse findByNameAndDateOfBirth(String name, LocalDate dateOfBirth) {
         Member member = memberRepository.findByNameAndDateOfBirth(name, dateOfBirth).orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
-        MemberInfoResponse response = new MemberInfoResponse();
-        response.setEmail(member.getEmail());
-        response.setDateOfBirth(member.getDateOfBirth());
-        response.setName(member.getName());
-        response.setGender(member.getGender());
-
-        return response;
+        return MemberInfoResponse.from(member);
     }
 
     // 이메일로 검색
@@ -60,13 +54,7 @@ public class MemberService {
     public MemberInfoResponse findByEmail(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. email: " + email));
 
-        MemberInfoResponse response = new MemberInfoResponse();
-        response.setEmail(member.getEmail());
-        response.setDateOfBirth(member.getDateOfBirth());
-        response.setName(member.getName());
-        response.setGender(member.getGender());
-
-        return response;
+        return MemberInfoResponse.from(member);
     }
 
     // 회원탈퇴

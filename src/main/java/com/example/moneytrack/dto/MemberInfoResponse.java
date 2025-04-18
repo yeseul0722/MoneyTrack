@@ -1,15 +1,30 @@
 package com.example.moneytrack.dto;
 
+import com.example.moneytrack.domain.Member;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
-@Setter
 public class MemberInfoResponse {
-    private String email;
-    private String name;
-    private String gender;
-    private LocalDate dateOfBirth;
+    private final String email;
+    private final String name;
+    private final String gender;
+    private final LocalDate dateOfBirth;
+
+    private MemberInfoResponse(String email, String name, String gender, LocalDate dateOfBirth) {
+        this.email = email;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public static MemberInfoResponse from(Member member) {
+        return new MemberInfoResponse(
+                member.getEmail(),
+                member.getName(),
+                member.getGender(),
+                member.getDateOfBirth()
+        );
+    }
 }
