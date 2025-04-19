@@ -1,10 +1,20 @@
 package com.example.moneytrack.dto;
 
+import com.example.moneytrack.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class MemberSignupResponse {
-    private Integer id;
+    private final Integer id;
+
+    private MemberSignupResponse(Integer id) {
+        this.id = id;
+    }
+
+    public static MemberSignupResponse from(Member member) {
+        return new MemberSignupResponse(
+                member.getId()
+        );
+    }
 }

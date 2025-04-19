@@ -28,10 +28,7 @@ public class MemberService {
 
         Integer id = memberRepository.save(member).getId();
 
-        MemberSignupResponse response = new MemberSignupResponse();
-        response.setId(id);
-
-        return response;
+        return MemberSignupResponse.from(member);
     }
 
     // 중복 회원 검증
