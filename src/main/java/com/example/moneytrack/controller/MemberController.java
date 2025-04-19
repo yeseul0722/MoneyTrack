@@ -1,13 +1,9 @@
 package com.example.moneytrack.controller;
 
-import com.example.moneytrack.dto.MemberInfoResponse;
-import com.example.moneytrack.dto.MemberSignupRequest;
-import com.example.moneytrack.dto.MemberSignupResponse;
+import com.example.moneytrack.dto.*;
 import com.example.moneytrack.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,18 +29,16 @@ public class MemberController {
     }
 
     // 회원 검색
-    @GetMapping("/search/by-info")
-    public MemberInfoResponse findByNameAndDateOfBirth(@RequestParam String name, LocalDate dateOfBirth) {
-        MemberInfoResponse response = memberService.findByNameAndDateOfBirth(name, dateOfBirth);
+    @PostMapping("/search/by-info")
+    public MemberInfoResponse findByNameAndDateOfBirth(@RequestBody MemberSearchByInfoRequest request) {
 
-        return response;
+        return memberService.findByNameAndDateOfBirth(request.getName(), request.getDateOfBirth());
     }
 
-    @GetMapping("/search/by-email")
-    public MemberInfoResponse findByEmail(@RequestParam String email) {
-        MemberInfoResponse response = memberService.findByEmail(email);
+    @PostMapping("/search/by-email")
+    public MemberInfoResponse findByEmail(@RequestBody MemberSearchByEmailRequest request) {
 
-        return response;
+        return memberService.findByEmail(request.getEmail());
     }
 
 }
