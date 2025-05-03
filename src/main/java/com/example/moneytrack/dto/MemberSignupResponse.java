@@ -2,7 +2,6 @@ package com.example.moneytrack.dto;
 
 import com.example.moneytrack.domain.Member;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class MemberSignupResponse {
