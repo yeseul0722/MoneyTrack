@@ -23,18 +23,19 @@ public class MemberController {
     }
 
     // 회원탈퇴
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void MemberDeleteId(@PathVariable Integer id) {
         memberService.deleteId(id);
     }
 
-    // 회원 검색
+    // 이름 + 생년월일로 검색
     @PostMapping("/search/by-info")
     public MemberInfoResponse findByNameAndDateOfBirth(@RequestBody MemberSearchByInfoRequest request) {
 
         return memberService.findByNameAndDateOfBirth(request.getName(), request.getDateOfBirth());
     }
 
+    // 이메일로 검색
     @PostMapping("/search/by-email")
     public MemberInfoResponse findByEmail(@RequestBody MemberSearchByEmailRequest request) {
 
