@@ -4,16 +4,13 @@ import com.example.moneytrack.domain.Account;
 import com.example.moneytrack.domain.Member;
 import com.example.moneytrack.dto.AccountCreateRequest;
 import com.example.moneytrack.dto.AccountCreateResponse;
+import com.example.moneytrack.dto.MemberInfoResponse;
 import com.example.moneytrack.repository.AccountJpaRepository;
 import com.example.moneytrack.repository.MemberJpaRepository;
 import com.example.moneytrack.util.AccountNumberGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +41,22 @@ public class AccountService {
         accountRepository.save(newAccount);
 
         return AccountCreateResponse.from(newAccount);
+    }
+
+    @Transactional
+    public MemberInfoResponse findByAccountNumber(String accountNumber) {
+
+        Account account = accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new IllegalArgumentException("해당 계좌가 존재하지 않습니다. 계좌번호: " + accountNumber));
+
+        Member member = account.getMember();
+
+        return MemberInfoResponse.from(member);
+    }
+
+    @Transactional
+    public void deleteAccount(String accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new IllegalArgumentException("해당 계좌가 존재하지 않습니다. 계좌번호: " + accountNumber));
+
+        accountRepository.delete(account);
     }
 }
