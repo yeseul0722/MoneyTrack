@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -24,20 +26,14 @@ public class AccountService {
     @Transactional
     public AccountCreateResponse createAccount(AccountCreateRequest request) {
 
-        Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-
+        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
         String productCode = request.getProductCode();
-
-        String recentAccountNumber = accountRepository
-                .findTopByProductCodeOrderByAccountNumberDesc(productCode)
-                .map(Account::getAccountNumber)
-                .orElse(null);
-
+        String recentAccountNumber = accountRepository.findTopByProductCodeOrderByAccountNumberDesc(productCode).map(Account::getAccountNumber).orElse(null);
+        BigDecimal deposit = request.getDeposit() != null ? request.getDeposit() : BigDecimal.ZERO;
 
         String newAccountNumber = AccountNumberGenerator.generate(bankCode, productCode, recentAccountNumber);
 
-        Account newAccount = Account.create(member, newAccountNumber, productCode);
+        Account newAccount = Account.create(member, newAccountNumber,deposit, productCode);
         accountRepository.save(newAccount);
 
         return AccountCreateResponse.from(newAccount);

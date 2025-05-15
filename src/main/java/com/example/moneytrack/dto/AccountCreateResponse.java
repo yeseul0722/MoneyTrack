@@ -2,17 +2,23 @@ package com.example.moneytrack.dto;
 
 import com.example.moneytrack.domain.Account;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Getter
 public class AccountCreateResponse {
     private final String accountNumber;
+    private final BigDecimal balance;
 
-    private AccountCreateResponse(String accountNumber) {this.accountNumber = accountNumber;}
+    private AccountCreateResponse(String accountNumber, BigDecimal balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
 
     public static AccountCreateResponse from(Account account) {
         return new AccountCreateResponse(
-                account.getAccountNumber()
+                account.getAccountNumber(),
+                account.getBalance()
         );
     }
 }
