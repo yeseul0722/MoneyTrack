@@ -18,7 +18,7 @@ public class WithdrawalService {
     private final AccountJpaRepository accountRepository;
 
     @Transactional
-    public WithdrawalResponse withdrawl(WithdrawalRequest request) {
+    public WithdrawalResponse withdrawal(WithdrawalRequest request) {
 
         Account account = accountRepository.findByAccountNumber(request.getAccountNumber()).orElseThrow(() -> new IllegalArgumentException("해당 계좌가 존재하지 않습니다. 계좌번호: " + request.getAccountNumber()));
         account.withdrawal(request.getAmount());

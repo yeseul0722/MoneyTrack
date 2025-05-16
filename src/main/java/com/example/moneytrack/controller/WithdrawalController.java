@@ -19,7 +19,7 @@ public class WithdrawalController {
     @PostMapping
     public WithdrawalResponse withdrawal(@RequestBody WithdrawalRequest request) {
 
-        WithdrawalResponse response = withdrawalService.withdrawl(request);
+        WithdrawalResponse response = withdrawalService.withdrawal(request);
 
         return response;
     }
