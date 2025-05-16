@@ -9,10 +9,10 @@ import java.time.LocalDate;
 @Getter
 public class DepositResponse {
     private final String accountNumber;
-    private final BigDecimal balance;
+    private final String balance;
     private final LocalDate depositedAt;
 
-    private DepositResponse(String accountNumber, BigDecimal balance, LocalDate depositedAt) {
+    private DepositResponse(String accountNumber, String balance, LocalDate depositedAt) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.depositedAt = depositedAt;
@@ -21,7 +21,7 @@ public class DepositResponse {
     public static DepositResponse from(Deposit deposit) {
         return new DepositResponse(
                 deposit.getDepositAccountNumber(),
-                deposit.getBalance(),
+                deposit.getBalance().toPlainString(),
                 deposit.getDepositedAt()
         );
     }

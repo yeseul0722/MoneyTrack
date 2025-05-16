@@ -42,12 +42,19 @@ public class Deposit {
     private Account account;
 
     public static Deposit create(Account account, BigDecimal amount, BigDecimal balance) {
+
+        if (amount.scale() > 0) {
+            throw new IllegalArgumentException("입금액은 소수점을 포함할 수 없습니다.");
+        }
+
         Deposit deposit = new Deposit();
         deposit.account = account;
         deposit.depositAccountNumber = account.getAccountNumber();
-        deposit.amount = amount;
-        deposit.balance = balance;
+        deposit.amount = amount.stripTrailingZeros();
+        deposit.balance = balance.stripTrailingZeros();
         deposit.depositedAt = LocalDate.now();
+
+        account.getDepositStatement().add(deposit);
 
         return deposit;
     }
