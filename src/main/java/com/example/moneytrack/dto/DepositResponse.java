@@ -1,17 +1,19 @@
 package com.example.moneytrack.dto;
 
 import com.example.moneytrack.domain.Deposit;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 public class DepositResponse {
     private final String accountNumber;
     private final Long balance;
-    private final LocalDate depositedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime depositedAt;
 
-    private DepositResponse(String accountNumber, Long balance, LocalDate depositedAt) {
+    private DepositResponse(String accountNumber, Long balance, LocalDateTime depositedAt) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.depositedAt = depositedAt;

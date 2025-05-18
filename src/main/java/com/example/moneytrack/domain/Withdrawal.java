@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -35,7 +34,7 @@ public class Withdrawal {
 
     // 출금 시각
     @Column(nullable = false)
-    private LocalDate withdrawalAt;
+    private LocalDateTime withdrawalAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
@@ -47,7 +46,7 @@ public class Withdrawal {
         withdrawal.withdrawalAccountNumber = account.getAccountNumber();
         withdrawal.amount = amount;
         withdrawal.balance = balance;
-        withdrawal.withdrawalAt = LocalDate.now();
+        withdrawal.withdrawalAt = LocalDateTime.now();
 
         return withdrawal;
     }

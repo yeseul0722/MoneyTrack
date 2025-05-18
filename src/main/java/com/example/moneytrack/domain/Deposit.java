@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -35,7 +34,7 @@ public class Deposit {
 
     // 입금 시각
     @Column(nullable = false)
-    private LocalDate depositedAt;
+    private LocalDateTime depositedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
@@ -48,7 +47,7 @@ public class Deposit {
         deposit.depositAccountNumber = account.getAccountNumber();
         deposit.amount = amount;
         deposit.balance = balance;
-        deposit.depositedAt = LocalDate.now();
+        deposit.depositedAt = LocalDateTime.now();
 
         return deposit;
     }

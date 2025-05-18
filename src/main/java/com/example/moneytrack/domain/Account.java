@@ -81,12 +81,6 @@ public class Account {
         this.balance = this.balance - amount;
     }
 
-
-    // 입금 내역
-    public void depositStatement(Deposit deposit) {
-        depositStatement.add(deposit);
-    }
-
     //출금 내역
     public void withdrawalStatement(Withdrawal withdrawal) {
         withdrawalStatement.add(withdrawal);
