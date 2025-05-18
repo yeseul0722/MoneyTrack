@@ -45,6 +45,15 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Withdrawal> withdrawalStatement = new ArrayList<>();
 
+    // 이체 출금 내역
+    @OneToMany(mappedBy = "withdrawalAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transfer> sentTransferStatement = new ArrayList<>();
+
+    // 이체 입금 내역
+    @OneToMany(mappedBy = "depositAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transfer> receivedTransferStatement = new ArrayList<>();
+
+
     private Account(Member member, String accountNumber, Long balance, String productCode) {
         this.member = member;
         this.accountNumber = accountNumber;
@@ -63,7 +72,7 @@ public class Account {
         }
         // 잔액 증가
         this.balance = this.balance + amount;
-        // 입금 내역 생성 및 추가
+        // 입금 내역 생성
         Deposit deposit = Deposit.create(this, amount, this.balance);
         this.depositStatement.add(deposit);
 
@@ -86,4 +95,35 @@ public class Account {
         withdrawalStatement.add(withdrawal);
     }
 
+    // 이체
+    public Transfer transfer(Long amount, Account targetAccount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("이체액은 0보다 커야합니다.");
+        }
+
+        // 출금 계좌 잔액보다 이체액이 많을 때
+        if (this.balance - amount < 0) {
+            throw new IllegalArgumentException("이체액은 잔액보다 클 수 없습니다. 잔액: " + this.balance);
+        }
+
+        // 출금 계좌에서 금액 차감
+        this.balance = this.balance - amount;
+        // 입금 계좌 금액 증감
+        targetAccount.balance = targetAccount.balance + amount;
+
+        // 이체 내역 생성
+        Transfer transfer = Transfer.create(this, targetAccount, amount);
+        this.sentTransferStatement.add(transfer);
+        targetAccount.receivedTransferStatement.add(transfer);
+
+        // 출금 내역 생성
+        Withdrawal withdrawal = Withdrawal.create(this, amount, this.balance);
+        withdrawalStatement.add(withdrawal);
+
+        // 입금 내역 생성
+        Deposit deposit = Deposit.create(targetAccount, amount, targetAccount.balance);
+        depositStatement.add(deposit);
+
+        return transfer;
+    }
 }
