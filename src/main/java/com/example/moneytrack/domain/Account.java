@@ -122,7 +122,7 @@ public class Account {
 
         // 입금 내역 생성
         Deposit deposit = Deposit.create(targetAccount, amount, targetAccount.balance);
-        depositStatement.add(deposit);
+        targetAccount.depositStatement.add(deposit);
 
         return transfer;
     }
