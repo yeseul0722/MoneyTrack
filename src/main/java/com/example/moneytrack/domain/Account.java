@@ -31,7 +31,7 @@ public class Account {
 
     // 잔액
     @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal balance;
+    private Long balance;
 
     // 상품 코드
     @Column(length = 3, nullable = false)
@@ -45,24 +45,24 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Withdrawal> withdrawalStatement = new ArrayList<>();
 
-    private Account(Member member, String accountNumber, BigDecimal balance, String productCode) {
+    private Account(Member member, String accountNumber, Long balance, String productCode) {
         this.member = member;
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.productCode = productCode;
     }
 
-    public static Account create(Member member, String accountNumber, BigDecimal deposit, String productCode) {
+    public static Account create(Member member, String accountNumber, Long deposit, String productCode) {
         return new Account(member, accountNumber, deposit, productCode);
     }
 
     // 입금
-    public Deposit deposit(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+    public Deposit deposit(Long amount) {
+        if (amount <= 0) {
             throw new IllegalArgumentException("입금액은 0보다 커야합니다.");
         }
         // 잔액 증가
-        this.balance = this.balance.add(amount);
+        this.balance = this.balance + amount;
         // 입금 내역 생성 및 추가
         Deposit deposit = Deposit.create(this, amount, this.balance);
         this.depositStatement.add(deposit);
@@ -71,14 +71,14 @@ public class Account {
     }
 
     // 출금
-    public void withdrawal(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+    public void withdrawal(Long amount) {
+        if (amount <= 0) {
             throw new IllegalArgumentException("출금액은 0보다 커야합니다.");
         }
-        if (this.balance.subtract(amount).compareTo(BigDecimal.ZERO) < 0) {
+        if (this.balance - amount < 0) {
             throw new IllegalArgumentException("출금액은 잔액보다 클 수 없습니다. 잔액: " + balance);
         }
-        this.balance = this.balance.subtract(amount);
+        this.balance = this.balance - amount;
     }
 
 

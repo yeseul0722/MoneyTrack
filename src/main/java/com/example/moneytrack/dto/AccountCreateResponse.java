@@ -3,14 +3,12 @@ package com.example.moneytrack.dto;
 import com.example.moneytrack.domain.Account;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @Getter
 public class AccountCreateResponse {
     private final String accountNumber;
-    private final BigDecimal balance;
+    private final Long balance;
 
-    private AccountCreateResponse(String accountNumber, BigDecimal balance) {
+    private AccountCreateResponse(String accountNumber, Long balance) {
         this.accountNumber = accountNumber;
         this.balance = balance;
     }

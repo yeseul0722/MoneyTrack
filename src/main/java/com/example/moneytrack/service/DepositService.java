@@ -15,6 +15,7 @@ public class DepositService {
 
     private final AccountJpaRepository accountRepository;
 
+    // 입금
     @Transactional
     public DepositResponse deposit(DepositRequest request) {
         Account account = accountRepository.findByAccountNumber(request.getAccountNumber())

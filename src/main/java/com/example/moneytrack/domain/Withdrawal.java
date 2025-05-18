@@ -27,11 +27,11 @@ public class Withdrawal {
 
     // 출금 금액
     @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal amount;
+    private Long amount;
 
     // 잔액
     @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal balance;
+    private Long balance;
 
     // 출금 시각
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class Withdrawal {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    public static Withdrawal create(Account account, BigDecimal amount, BigDecimal balance) {
+    public static Withdrawal create(Account account, Long amount, Long balance) {
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.account = account;
         withdrawal.withdrawalAccountNumber = account.getAccountNumber();
