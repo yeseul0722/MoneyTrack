@@ -57,11 +57,17 @@ public class Account {
     }
 
     // 입금
-    public void deposit(BigDecimal amount) {
+    public Deposit deposit(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("입금액은 0보다 커야합니다.");
         }
+        // 잔액 증가
         this.balance = this.balance.add(amount);
+        // 입금 내역 생성 및 추가
+        Deposit deposit = Deposit.create(this, amount, this.balance);
+        this.depositStatement.add(deposit);
+
+        return deposit;
     }
 
     // 출금

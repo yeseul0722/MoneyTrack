@@ -54,8 +54,6 @@ public class Deposit {
         deposit.balance = balance.stripTrailingZeros();
         deposit.depositedAt = LocalDate.now();
 
-        account.getDepositStatement().add(deposit);
-
         return deposit;
     }
 
