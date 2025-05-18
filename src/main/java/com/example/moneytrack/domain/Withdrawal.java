@@ -25,11 +25,11 @@ public class Withdrawal {
     private String withdrawalAccountNumber;
 
     // 출금 금액
-    @Column(nullable = false, precision = 19, scale = 2)
+    @Column(nullable = false)
     private Long amount;
 
     // 잔액
-    @Column(nullable = false, precision = 19, scale = 2)
+    @Column(nullable = false)
     private Long balance;
 
     // 출금 시각

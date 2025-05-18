@@ -25,11 +25,11 @@ public class Deposit {
     private String depositAccountNumber;
 
     // 입금 금액
-    @Column(nullable = false, precision = 19, scale = 2)
+    @Column(nullable = false)
     private Long amount;
 
     // 잔액
-    @Column(nullable = false, precision = 19, scale = 2)
+    @Column(nullable = false)
     private Long balance;
 
     // 입금 시각
@@ -51,6 +51,4 @@ public class Deposit {
 
         return deposit;
     }
-
-
 }
