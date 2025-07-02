@@ -12,6 +12,5 @@ import java.util.Optional;
 
 @Repository
 public interface AccountJpaRepository extends JpaRepository<Account, Integer> {
-    Optional<Account> findTopByProductCodeOrderByAccountNumberDesc(String productCode);
     Optional<Account> findByAccountNumber(String accountNumber);
 }
