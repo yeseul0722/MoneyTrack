@@ -5,19 +5,12 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 @Getter
 @NoArgsConstructor
-public class TransferRequest {
-
-//    @NotNull
-//    private Integer requestMemberId;
-
+public class WithdrawRequest {
     @NotNull
-    private String withdrawAccountNumber;
-
-    @NotNull
-    private String depositAccountNumber;
-
+    private String accountNumber;
     @NotNull @Positive
     private Long amount;
 

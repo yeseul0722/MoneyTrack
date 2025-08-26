@@ -1,0 +1,32 @@
+-- SET NAMES utf8mb4;
+-- SET time_zone = '+00:00';
+--
+-- -- 거래 헤더
+-- CREATE TABLE tx(
+--     tx_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+--     occurred_at DATETIME(6) NOT NULL,
+--     status VARCHAR(20) NOT NULL,    -- PENDING/COMPLETED/FAILED/CANCELED
+--     description VARCHAR(255),
+--     correlation_id VARCHAR(100),    --멱등 키
+--     type VARCHAR(10) NOT NULL DEFAULT 'TRANSFER'
+-- )   ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+-- CREATE INDEX ix_tx_time ON tx (occurred_at DESC, tx_id DESC);
+-- -- CREATE UNIQUE INDEX uq_tx_channel_cid ON tx(channel, correlation_id);
+--
+-- -- 거래 라인(분개)
+-- CREATE TABLE entry (
+--     entry_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+--     tx_id BIGINT NOT NULL,
+--     account_id INT NOT NULL,
+--     direction VARCHAR(10) NOT NULL,     --DEBIT/CREDIT
+--     amount BIGINT NOT NULL,
+--     occurred_at DATETIME(6) NOT NULL,   -- 헤더 시간 복제
+--     memo VARCHAR(255),
+--     CONSTRAINT fk_entry_tx FOREIGN KEY (tx_id) REFERENCES tx(tx_id),
+--     CONSTRAINT fk_entry_account FOREIGN KEY (account_id) REFERENCES account(account_id)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+-- -- 조회/페이징 인덱스
+-- CREATE INDEX ix_entry_account_time ON entry (account_id, occurred_at DESC, entry_id DESC);
+-- CREATE INDEX ix_entry_tx ON entry (tx_id, entry_id ASC);

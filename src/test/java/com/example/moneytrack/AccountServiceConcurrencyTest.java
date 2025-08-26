@@ -52,7 +52,7 @@ class AccountServiceConcurrencyTest {
 
 
         int threadCount = 10;
-        int totalTasks = 500;
+        int totalTasks = 10000;
 
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(totalTasks);

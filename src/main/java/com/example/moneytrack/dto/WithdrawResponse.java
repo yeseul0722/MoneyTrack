@@ -10,28 +10,18 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class TransferResponse {
+public class WithdrawResponse {
     private final Long transactionId;
-
-    private final String withdrawAccountNumber;
-    private final String depositAccountNumber;
-
-    private final Long amount;
-    private final Long fromBalance;
-    private final Long toBalance;
-
+    private final String accountNumber;
+    private final Long balance;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime occurredAt;
 
-    // 정적 팩토리 메서드
-    public static TransferResponse from(Transaction transaction, Account from, Account to, Long amount) {
-        return new TransferResponse(
+    public static WithdrawResponse from(Transaction transaction, Account from) {
+        return new WithdrawResponse(
                 transaction.getId(),
                 from.getAccountNumber(),
-                to.getAccountNumber(),
-                amount,
                 from.getBalance(),
-                to.getBalance(),
                 transaction.getOccurredAt()
         );
     }
