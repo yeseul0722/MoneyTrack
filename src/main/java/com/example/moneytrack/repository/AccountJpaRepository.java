@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +18,6 @@ public interface AccountJpaRepository extends JpaRepository<Account, Integer> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Account> findByAccountNumber(String accountNumber);
+
+    List<Account> findByMember_Id(Integer memberId);
 }

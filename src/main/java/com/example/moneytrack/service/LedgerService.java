@@ -6,9 +6,7 @@ import com.example.moneytrack.domain.Transaction;
 import com.example.moneytrack.domain.enums.Direction;
 import com.example.moneytrack.domain.enums.TransactionStatus;
 import com.example.moneytrack.domain.enums.TransactionType;
-import com.example.moneytrack.dto.DepositResponse;
-import com.example.moneytrack.dto.TransferResponse;
-import com.example.moneytrack.dto.WithdrawResponse;
+import com.example.moneytrack.dto.*;
 import com.example.moneytrack.repository.AccountJpaRepository;
 import com.example.moneytrack.repository.EntryJpaRepository;
 import com.example.moneytrack.repository.TransactionJpaRepository;
@@ -18,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -153,5 +153,24 @@ public class LedgerService {
     @Transactional(readOnly = true)
     public Page<Entry> getEntries(Integer accountId, Pageable pageable) {
         return entryRepository.findByAccount_IdOrderByOccurredAtDescIdDesc(accountId, pageable);
+    }
+
+    // 고객 거래내역 조회
+    @Transactional(readOnly = true)
+    public MemberEntryResponse getMemberEntries(Integer memberId) {
+        List<Entry> entries = entryRepository.findByAccount_Member_idOrderByOccurredAtDesc(memberId);
+        List<EntryDetail> details = entries.stream()
+                .map(EntryDetail::from)
+                .toList();
+
+        // 모든 계좌를 조회하여 전액 합산
+        Long total = accountRepository.findByMember_Id(memberId).stream()
+                .mapToLong(Account::getBalance)
+                .sum();
+
+        return MemberEntryResponse.builder()
+                .totalBalance(total)
+                .entries(details)
+                .build();
     }
 }

@@ -47,4 +47,5 @@ public class Account {
     public static Account create(Member member, String accountNumber, Long deposit, String productCode) {
         return new Account(member, accountNumber, deposit, productCode);
     }
+    
 }
